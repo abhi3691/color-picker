@@ -1,40 +1,15 @@
 import {StyleSheet} from 'react-native';
-import ScreenRatio from '../../components/constants/ScreenRatio';
-import {RFValue} from 'react-native-responsive-fontsize';
-import colors from '../../components/constants/colors';
+import {PALETTE_HEIGHT, PALETTE_WIDTH} from './constants';
 
 const styles = StyleSheet.create({
   container: {
-    height: ScreenRatio.height,
-    width: ScreenRatio.width,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: 'black',
+    justifyContent: 'flex-end',
   },
-  textStyle: {
-    fontSize: RFValue(30),
-    color: colors.black,
-    width: ScreenRatio.width,
-    textAlign: 'center',
-    margin: ScreenRatio.width / 5,
-  },
-  buttonContainer: {
-    marginTop: ScreenRatio.height / 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: ScreenRatio.height / 20,
-    width: ScreenRatio.width,
-  },
-  button: {
-    height: ScreenRatio.height / 20,
-    width: ScreenRatio.width / 3,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.black,
-  },
-  lable: {
-    fontSize: RFValue(12),
-    color: colors.white,
+  paletteSize: {
+    width: PALETTE_WIDTH,
+    height: PALETTE_HEIGHT,
   },
 });
 

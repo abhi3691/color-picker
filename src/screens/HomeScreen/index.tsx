@@ -1,65 +1,49 @@
-import {View, Text} from 'react-native';
-import React, {FC} from 'react';
-import ReactIcon from '../../assets/svg/react.svg';
+/* eslint-disable react-native/no-inline-styles */
+import {SafeAreaView, StatusBar, View} from 'react-native';
+import React, {Fragment, useState} from 'react';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import {calculateDegree} from './functions/calculateDegree';
+import {useSharedValue} from 'react-native-reanimated';
+import {COLOR_PALETTE} from './constants';
 import styles from './styles';
-import Buttons from 'react-native-custom-buttons';
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSpring,
-} from 'react-native-reanimated';
-import {RFValue} from 'react-native-responsive-fontsize';
-const HomeScreen: FC = () => {
-  //hooks
-  const navigation: NavigationProp<ParamListBase> = useNavigation();
+import PaletteItem from './orginization/PaletteItem';
 
-  const progress = useSharedValue(0.5); //reanimated Intial Progress Set
+const HomeScreen = () => {
+  const gestureDegree = useSharedValue(0);
+  const [activeColor, setActiveColor] = useState('rgb(64, 68, 88)');
 
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: progress.value,
-        },
-      ],
-    };
-  }); //reAnimated Animated Style Set
-
-  //animation Redring Function
-  React.useEffect(() => {
-    progress.value = withRepeat(withSpring(2), 3, true);
-  }, [progress]);
-
-  //   //navigate to  User List
-  const gotListView = async () => {
-    navigation.navigate('UserList');
-  };
+  const dragesture = Gesture.Pan()
+    .onStart(e => {
+      gestureDegree.value = calculateDegree(e);
+    })
+    .onUpdate(e => {
+      gestureDegree.value = calculateDegree(e);
+    })
+    .onEnd(() => {
+      gestureDegree.value = gestureDegree.value > 90 ? 90 : 0;
+    });
   return (
-    <View style={styles.container}>
-      <Text style={styles.textStyle} numberOfLines={2}>
-        WELCOME TO REACT NATIVE ATOM
-      </Text>
-      <Animated.View style={rStyle}>
-        <ReactIcon height={RFValue(100)} width={RFValue(100)} />
-      </Animated.View>
-      <View style={styles.buttonContainer}>
-        <Buttons
-          containerStyles={styles.button}
-          onPress={() => gotListView()}
-          type={'vector Icon'}
-          fontFamily="AntDesign"
-          iconName="user"
-          iconcolor="white"
-          iconSize={20}
-        />
-      </View>
-    </View>
+    <Fragment>
+      <StatusBar barStyle={'light-content'} backgroundColor={activeColor} />
+      <SafeAreaView style={[styles.container, {backgroundColor: activeColor}]}>
+        <GestureDetector gesture={dragesture}>
+          <View style={[styles.paletteSize, {margin: 40}]}>
+            {COLOR_PALETTE.map((colors, index) => (
+              <PaletteItem
+                {...{
+                  colors,
+                  index,
+                  gestureDegree,
+                  activeColor,
+                }}
+                onColorPress={setActiveColor}
+                key={index}
+              />
+            ))}
+          </View>
+        </GestureDetector>
+      </SafeAreaView>
+    </Fragment>
   );
 };
 
