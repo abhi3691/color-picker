@@ -1,5 +1,9 @@
 This is a new React Native reanimated card rotation color picker
 
+
+https://github.com/abhi3691/color-picker/assets/54738565/86b4b108-2c27-47e9-bbe6-9dc3e6eb57ca
+
+
 # Getting Started
 
 > **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
